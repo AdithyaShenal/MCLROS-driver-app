@@ -22,12 +22,12 @@ const MyRoutesUI = () => {
 
       <div className="flex flex-col gap-2 mt-4">
         <p className="ml-1 text-gray-500 text-sm">Pending Routes</p>
-        <RouteCard />
-        <RouteCard />
-        <RouteCard />
-        <RouteCard />
-        <RouteCard />
-        <RouteCard />
+        <RouteCard onCardClick={() => navigate("/active_route")} />
+        <RouteCard onCardClick={() => navigate("/active_route")} />
+        <RouteCard onCardClick={() => navigate("/active_route")} />
+        <RouteCard onCardClick={() => navigate("/active_route")} />
+        <RouteCard onCardClick={() => navigate("/active_route")} />
+        <RouteCard onCardClick={() => navigate("/active_route")} />
       </div>
     </>
   );

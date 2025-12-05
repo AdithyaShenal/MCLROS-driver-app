@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ButtonPrimary from "../components/ButtonPrimary";
 import StopCard from "../components/StopCard";
 import ButtonSecondary from "../components/ButtonSecondary";
+import ButtonWarning from "../components/ButtonWarning";
 
 const ActiveRouteUI = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const ActiveRouteUI = () => {
           name="View Pickup List"
           onBtnClick={() => navigate("/pickup_list")}
         />
+        <ButtonWarning name="Cancel & Exit this Route" onBtnClick={() => {}} />
       </div>
     </>
   );

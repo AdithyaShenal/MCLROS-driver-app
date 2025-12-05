@@ -1,7 +1,14 @@
-const RouteCard = () => {
+interface Props {
+  onCardClick: () => void;
+}
+
+const RouteCard = ({ onCardClick }: Props) => {
   return (
     <>
-      <div className="flex flex-col gap-2 p-4 border border-gray-300 rounded-lg">
+      <div
+        onClick={onCardClick}
+        className="flex flex-col gap-2 p-4 border border-gray-300 rounded-lg"
+      >
         <div className="flex justify-between font-bold">
           <span className="text-lg">ABC 20 20</span>
           <span className="bg-amber-400 px-1 rounded-lg">Pending</span>
