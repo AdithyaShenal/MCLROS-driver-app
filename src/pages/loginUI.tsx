@@ -1,4 +1,8 @@
-const loginUI = () => {
+import { useNavigate } from "react-router-dom";
+
+const LoginUI = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="w-full h-full flex items-center justify-center">
@@ -32,7 +36,10 @@ const loginUI = () => {
             />
           </div>
           <div className="mt-6">
-            <button className="bg-sky-950 text-sky-50 p-4 w-full rounded-md font-bold">
+            <button
+              onClick={() => navigate("/myroutes")}
+              className="bg-sky-950 text-sky-50 p-4 w-full rounded-md font-bold"
+            >
               Sign In
             </button>
           </div>
@@ -42,4 +49,4 @@ const loginUI = () => {
   );
 };
 
-export default loginUI;
+export default LoginUI;
