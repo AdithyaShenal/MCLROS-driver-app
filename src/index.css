@@ -1,6 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
+/* Typically in your index.css or equivalent */
+html,
+body,
+#root {
+  height: 100%;
+}
+
 /* custom style (ignore the error on theme) */
 @theme {
   --font-momo: "Momo Signature", cursive;
