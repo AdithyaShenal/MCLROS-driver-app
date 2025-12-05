@@ -1,16 +1,23 @@
+import { useNavigate } from "react-router-dom";
 import RouteCard from "../components/RouteCard";
+import ButtonPrimary from "../components/ButtonPrimary";
+import ButtonSecondary from "../components/ButtonSecondary";
 
 const MyRoutesUI = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="flex flex-col gap-4">
-        <button className="bg-sky-950 text-white p-4 w-full rounded-md font-bold text-lg">
-          Register New Farmer
-        </button>
+        <ButtonPrimary
+          name="Register New Farmer"
+          onBtnClick={() => navigate("/register_farmer")}
+        />
 
-        <button className="border border-gray-300 text-shadow-sky-950 p-4 w-full rounded-md font-bold text-lg">
-          Completed Routes
-        </button>
+        <ButtonSecondary
+          onBtnClick={() => navigate("/completed_routes")}
+          name="Completed Routes"
+        />
       </div>
 
       <div className="flex flex-col gap-2 mt-4">

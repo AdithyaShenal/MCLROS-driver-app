@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import ButtonPrimary from "../components/ButtonPrimary";
 
 const LoginUI = () => {
   const navigate = useNavigate();
@@ -36,12 +37,10 @@ const LoginUI = () => {
             />
           </div>
           <div className="mt-6">
-            <button
-              onClick={() => navigate("/myroutes")}
-              className="bg-sky-950 text-sky-50 p-4 w-full rounded-md font-bold"
-            >
-              Sign In
-            </button>
+            <ButtonPrimary
+              name="Sign In"
+              onBtnClick={() => navigate("/myroutes")}
+            />
           </div>
         </form>
       </div>
