@@ -3,6 +3,8 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import StopCard from "../components/StopCard";
 import ButtonSecondary from "../components/ButtonSecondary";
 import ButtonWarning from "../components/ButtonWarning";
+import MapComponent from "../components/MapComponent";
+import { route } from "../components/Dummy";
 
 const ActiveRouteUI = () => {
   const navigate = useNavigate();
@@ -10,8 +12,13 @@ const ActiveRouteUI = () => {
   return (
     <>
       <div className="flex flex-col gap-4">
-        <div className="border h-60 rounded-lg border-gray-300"></div>
-        <div className="border h-30 rounded-lg bg-sky-950 border-gray-300"></div>
+        <div className="h-80">
+          <MapComponent route={route} />
+        </div>
+        <ButtonPrimary
+          name="Open Map"
+          onBtnClick={() => navigate("/map_view", { state: { route } })}
+        />
         <StopCard />
         <ButtonPrimary
           name="Confirm Pickup at Stop"

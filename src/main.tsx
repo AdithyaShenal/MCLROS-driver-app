@@ -4,13 +4,16 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routes/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
+// import BackButtonHandler from "./components/Control/BackButtonHandler";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
+      {/* <BackButtonHandler> */}
       <RouterProvider router={router} />
+      {/* </BackButtonHandler> */}
     </QueryClientProvider>
   </StrictMode>
 );
