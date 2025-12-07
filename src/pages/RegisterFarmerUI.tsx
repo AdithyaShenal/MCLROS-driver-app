@@ -9,6 +9,7 @@ const RegisterFarmerUI = () => {
       <div className="flex flex-col gap-4 border border-gray-300 rounded-lg p-4 mt-4">
         <p className="text-lg font-bold">Farmer Information</p>
 
+        {/* Name */}
         <div className="flex flex-col gap-1 text-sm">
           <label htmlFor="fname" className="font-bold ml-1">
             Farmer Name
@@ -20,11 +21,10 @@ const RegisterFarmerUI = () => {
             id="fname"
             className="border border-gray-300 rounded-md h-10 p-2 placeholder:text-sm placeholder:text-gray-400/70"
           />
-          <p className="text-red-500 ml-1 font-bold text-xs">
-            Dummy warning: Please enter a valid name
-          </p>
+          <p className="text-red-500 ml-1 font-bold text-xs">Dummy warning</p>
         </div>
 
+        {/* Phone number */}
         <div className="flex flex-col gap-1 text-sm">
           <label htmlFor="pnumber" className="font-bold ml-1">
             Phone Number
@@ -36,8 +36,10 @@ const RegisterFarmerUI = () => {
             id="pnumber"
             className="border border-gray-300 rounded-md h-10 p-2 placeholder:text-sm placeholder:text-gray-400/70"
           />
+          <p className="text-red-500 ml-1 font-bold text-xs">Dummy warning</p>
         </div>
 
+        {/* Address */}
         <div className="flex flex-col gap-1 text-sm">
           <label htmlFor="address" className="font-bold ml-1">
             Address
@@ -49,21 +51,23 @@ const RegisterFarmerUI = () => {
             id="address"
             className="border border-gray-300 rounded-md h-10 p-2 placeholder:text-sm placeholder:text-gray-400/70"
           />
+          <p className="text-red-500 ml-1 font-bold text-xs">Dummy warning</p>
         </div>
       </div>
 
+      {/* Location */}
       <div className="flex flex-col gap-2 border border-gray-300 rounded-lg p-4 mt-4">
         <p className="text-lg font-bold">Location</p>
 
         <div className="columns-2 flex gap-2 text-sm">
           <div className="flex flex-col gap-1">
-            <label htmlFor="fname" className="font-bold ml-1">
+            <label htmlFor="lcoords" className="font-bold ml-1">
               Location Coordinates
             </label>
             <input
               autoComplete="on"
               type="text"
-              id="fname"
+              id="lcoords"
               className="border border-gray-300 rounded-md h-10 p-2 placeholder:text-sm placeholder:text-gray-400/70"
             />
           </div>
@@ -71,22 +75,23 @@ const RegisterFarmerUI = () => {
         </div>
 
         <p className="text-red-500 ml-1 font-bold text-xs">
-          Location must be entered
+          location data cannot be access
         </p>
       </div>
 
+      {/* Route Assignment */}
       <div className="flex flex-col gap-4 border border-gray-300 rounded-lg p-4 mt-4">
         <p className="text-lg font-bold">Route Assignment</p>
 
         <div className="flex flex-col gap-1 text-sm">
-          <label htmlFor="fname" className="font-bold ml-1">
+          <label htmlFor="route_number" className="font-bold ml-1">
             Route Number
           </label>
           <input
             autoComplete="on"
             placeholder="Enter route number"
             type="text"
-            id="fname"
+            id="route_number"
             className="border border-gray-300 rounded-md h-10 p-2 placeholder:text-sm placeholder:text-gray-400/70"
           />
           <p className="text-red-500 ml-1 font-bold text-xs">
