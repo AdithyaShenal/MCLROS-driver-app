@@ -11,6 +11,7 @@ import ActiveRouteUI from "../pages/ActiveRouteUI";
 import PickupConfirmUI from "../pages/PickupConfirmUI";
 import PickupList from "../pages/PickupList";
 import FullMapUI from "../pages/FullMapUI";
+import CompletedRoutesUI from "../pages/CompletedRoutesUI";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +24,9 @@ const router = createBrowserRouter([
       },
       { path: "/myroutes", element: <MyRoutesUI /> },
       { path: "/register_farmer", element: <RegisterFarmerUI /> },
-      { path: "/active_route", element: <ActiveRouteUI /> },
+      { path: "/active_route/:route_id", element: <ActiveRouteUI /> },
       { path: "/confirm_pickup", element: <PickupConfirmUI /> },
+      { path: "/completed_routes", element: <CompletedRoutesUI /> },
       { path: "/pickup_list", element: <PickupList /> },
       { path: "/map_view", element: <FullMapUI /> },
     ],

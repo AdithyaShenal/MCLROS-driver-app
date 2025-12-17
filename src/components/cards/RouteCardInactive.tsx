@@ -1,12 +1,7 @@
-import type { Route } from "../hooks/useFetchRoutes";
-import ButtonActivate from "./Buttons/ButtonActivate";
+import type { Route } from "../../hooks/useFetchRoutes";
 
 interface Props {
-  onCardClick: () => void;
   routeProps: Route;
-  error: string | null;
-  isLoading: boolean;
-  isActive: boolean;
 }
 const STATUS_BADGE_CLASSES: Record<string, string> = {
   dispatched:
@@ -19,13 +14,7 @@ const STATUS_BADGE_CLASSES: Record<string, string> = {
     "px-2 py-1 rounded-full text-sm font-bold bg-yellow-100 text-yellow-800",
 };
 
-const RouteCard = ({
-  onCardClick,
-  routeProps,
-  error,
-  isLoading,
-  isActive,
-}: Props) => {
+const RouteCardInactive = ({ routeProps }: Props) => {
   return (
     <>
       <div className="flex flex-col gap-2 p-4 border border-gray-300 rounded-lg">
@@ -54,22 +43,9 @@ const RouteCard = ({
             <span>{routeProps.distance / 1000} Km</span>
           </div>
         </div>
-
-        <div className="mt-2">
-          <ButtonActivate
-            name={
-              isActive ? "Access" : isLoading ? "Activating..." : "Activate"
-            }
-            onBtnClick={onCardClick}
-          />
-        </div>
-
-        {error && (
-          <p className="mt-1 font-bold text-red-500 text-sm">{error}</p>
-        )}
       </div>
     </>
   );
 };
 
-export default RouteCard;
+export default RouteCardInactive;

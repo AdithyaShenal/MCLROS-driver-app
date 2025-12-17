@@ -378,90 +378,14 @@ import leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { Geolocation } from "@capacitor/geolocation";
 import RoutingMachine from "./RoutingMachine";
-
-interface Farmer {
-  _id: string;
-  address: string;
-  location: {
-    lat: number;
-    lon: number;
-  };
-  name: string;
-  route: number;
-  updatedAt: string;
-  createdAt: string;
-  phone: string;
-}
-
-interface Production {
-  _id: string;
-  volume: number;
-  farmer: Farmer;
-  status: string;
-}
-
-interface Stop {
-  load_after_visit: number;
-  node: number;
-  order: number;
-  production: Production | null;
-}
-
-export interface Route {
-  distance: number;
-  stops: Stop[];
-  vehicle_id: number;
-  license_no: string;
-  load: number;
-}
+import { CurrentLocationIcon } from "./MapMarkers/CurrentLocationMarker";
+import type { Route } from "../hooks/useFetchRoutes";
 
 interface Props {
   route: Route;
 }
 
 const depotCoordinates = { lat: 7.019041, lon: 79.969565 };
-
-// Custom marker for current location with heading
-const currentLocationIcon = (heading: number) =>
-  leaflet.divIcon({
-    className: "current-location-marker",
-    html: `
-    <div style="
-      width: 40px;
-      height: 40px;
-      position: relative;
-      transform: rotate(${heading}deg);
-    ">
-      <!-- Direction Arrow -->
-      <div style="
-        position: absolute;
-        top: -5px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-bottom: 16px solid #4285F4;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-      "></div>
-      <!-- Center Dot -->
-      <div style="
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 20px;
-        height: 20px;
-        background: #4285F4;
-        border: 3px solid white;
-        border-radius: 50%;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      "></div>
-    </div>
-  `,
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
-  });
 
 // Component to center map on current location
 function MapCenterUpdater({ center }: { center: leaflet.LatLng | null }) {
@@ -587,7 +511,7 @@ const MapComponent = ({ route }: Props) => {
         {currentPosition && (
           <Marker
             position={currentPosition}
-            icon={currentLocationIcon(heading)}
+            icon={CurrentLocationIcon(heading)}
             key={`marker-${heading}`}
           />
         )}

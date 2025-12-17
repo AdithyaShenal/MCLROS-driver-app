@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import type { Route } from "../components/MapComponent";
+import type { Route } from "../hooks/useFetchRoutes";
 import MapComponent from "../components/MapComponent";
 
 const FullMapUI = () => {

@@ -1,37 +1,75 @@
-const StopCard = () => {
+import { type Stop } from "../hooks/useFetchRoutes";
+
+interface Props {
+  stopData: Stop;
+}
+
+const getStatusStyles = (status?: string) => {
+  switch (status) {
+    case "pending":
+      return "bg-yellow-100 text-yellow-700";
+    case "awaiting pickup":
+      return "bg-blue-100 text-blue-700";
+    case "collected":
+      return "bg-green-100 text-green-700";
+    case "failed":
+      return "bg-red-100 text-red-700";
+    default:
+      return "bg-gray-100 text-gray-600";
+  }
+};
+
+const StopCard = ({ stopData }: Props) => {
   return (
-    <>
-      <div className="flex flex-col gap-2 p-4 border border-gray-300 rounded-lg">
-        <div className="flex justify-between font-bold">
-          <span className="text-lg">Next Stop</span>
-          <span className="px-1 rounded-lg">Stop #2</span>
+    <div className="rounded-xl bg-white p-4 shadow-sm border border-gray-200 hover:shadow-md transition">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs text-gray-500">Next Stop</p>
+          <p className="text-lg font-semibold text-gray-800">
+            #{stopData.order - 1}
+          </p>
         </div>
 
-        <div className="flex flex-col justify-between text-sm">
-          <span>Farmer Name</span>
-          <span className="font-bold">K. Saranapala Silva</span>
-        </div>
+        {/* Status Badge */}
+        <span
+          className={`px-3 py-1 text-xs font-semibold rounded-full ${getStatusStyles(
+            stopData.production?.status
+          )}`}
+        >
+          {stopData.production?.status ?? "UNKNOWN"}
+        </span>
+      </div>
 
-        <div className="flex flex-col justify-between text-sm">
-          <span className="">Address</span>
-          <span className="font-bold">
-            No. 100, Ambewela road, pallwela, nuwaraeliya, pugoda
-          </span>
-        </div>
+      {/* Divider */}
+      <div className="my-3 h-px bg-gray-100" />
 
-        <div className="flex justify-between text-sm">
-          <div className="flex flex-col">
-            <span className="">Total Liters</span>
-            <span className="font-bold">30L</span>
-          </div>
+      {/* Farmer */}
+      <div className="mb-3">
+        <p className="text-xs text-gray-500">Farmer</p>
+        <p className="text-base font-semibold text-gray-900">
+          {stopData.production?.farmer.name}
+        </p>
+      </div>
 
-          <div className="flex flex-col">
-            <span className="">Total distance</span>
-            <span className="font-bold">34 Km</span>
-          </div>
+      {/* Address */}
+      <div className="mb-4">
+        <p className="text-xs text-gray-500">Address</p>
+        <p className="text-sm font-medium text-gray-700 line-clamp-2">
+          {stopData.production?.farmer.address}
+        </p>
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs text-gray-500">Total Volume</p>
+          <p className="text-2xl font-bold text-sky-900">
+            {stopData.production?.volume}L
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
