@@ -8,17 +8,17 @@ const baseBtn =
    transition active:scale-95 active:opacity-80 \
    focus:outline-none focus-visible:ring-2";
 
-const ButtonActivate = ({ name, onBtnClick }: Props) => {
+const ButtonSuccess = ({ name, onBtnClick }: Props) => {
   return (
     <button
       onClick={onBtnClick}
       className={`${baseBtn}
-        bg-sky-950 text-white
-        focus-visible:ring-sky-400`}
+        bg-emerald-600 text-white
+        focus-visible:ring-emerald-400`}
     >
       {name}
     </button>
   );
 };
 
-export default ButtonActivate;
+export default ButtonSuccess;

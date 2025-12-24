@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { useEffect } from "react";
 import type { Route } from "../hooks/useFetchRoutes";
 import RouteCardInactive from "../components/cards/RouteCardInactive";
+import InlineSpinner from "../components/Loaders/InlineSpinner";
 
 const CompletedRoutesUI = () => {
   const { driverId, setDriver } = useDriverStore();
@@ -16,11 +17,14 @@ const CompletedRoutesUI = () => {
     data: routes,
     isError,
     error,
+    isLoading,
   } = useQuery<Route[], AxiosError>({
     queryKey: ["routes", "completed", driverId],
     queryFn: () =>
       axios
-        .get(`http://localhost:4000/api/routing/routes/driver/${driverId}`)
+        .get(
+          `https://mclros-backend-2.onrender.com/api/routing/routes/driver/${driverId}`
+        )
         .then((res) => res.data),
 
     enabled: !!driverId,
@@ -32,6 +36,7 @@ const CompletedRoutesUI = () => {
     <>
       <div>
         <p className="font-bold ml-1">Completed routes</p>
+        {isLoading && <InlineSpinner />}
         <div className="flex flex-col my-4">
           {routes?.map((route) => (
             <RouteCardInactive routeProps={route} key={route._id} />

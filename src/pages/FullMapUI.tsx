@@ -5,6 +5,7 @@ import MapComponent from "../components/MapComponent";
 const FullMapUI = () => {
   const { state } = useLocation();
   const route: Route = state?.route;
+  // const currentStop = state?.currentStop;
 
   return (
     <>

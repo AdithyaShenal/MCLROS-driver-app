@@ -10,8 +10,11 @@ import { useEffect, useState } from "react";
 import CancelRouteSheet from "../components/CancelRouteSheet";
 import RouteCompleteCard from "../components/cards/RouteCompleteCard";
 import useDriverStore from "../store/userStore";
+import InlineSpinner from "../components/Loaders/InlineSpinner";
+import { Dialog } from "@capacitor/dialog";
+import { Toast } from "@capacitor/toast";
 
-interface APIError {
+export interface APIError {
   message: string;
   code?: string;
   details?: string;
@@ -34,6 +37,7 @@ const ActiveRouteUI = () => {
     data: route,
     isError,
     error,
+    isLoading: routesLoading,
   } = useQuery<Route, AxiosError<APIError>>({
     queryKey: ["route", route_id],
     queryFn: () =>
@@ -49,6 +53,7 @@ const ActiveRouteUI = () => {
     mutate,
     isError: isCancelationError,
     error: cancelationError,
+    isPending: cancelLoading,
   } = useMutation({
     mutationFn: () =>
       // axios.post(`http://localhost:4000/api/routing/routes/cancel/${route_id}`),
@@ -60,9 +65,16 @@ const ActiveRouteUI = () => {
       setShowCancelSheet(false);
       navigate("/myroutes");
     },
+
+    onError: (error: AxiosError<APIError>) => {
+      Toast.show({
+        text: error.response?.data.message ?? "Something went wrong",
+        duration: "short",
+      });
+    },
   });
 
-  const completeMutation = useMutation({
+  const { mutate: completeMutate, isPending: completeLoading } = useMutation({
     mutationFn: () =>
       axios.post(
         // `http://localhost:4000/api/routing/routes/complete/${route_id}`,
@@ -73,10 +85,24 @@ const ActiveRouteUI = () => {
       queryClient.invalidateQueries({ queryKey: ["route", route_id] });
       queryClient.invalidateQueries({ queryKey: ["routes"] });
     },
+
+    onError: (error: AxiosError<APIError>) => {
+      Toast.show({
+        text: error.response?.data.message ?? "Something went wrong",
+        duration: "short",
+      });
+    },
   });
 
-  if (isError || !route)
-    return <p className="text-red-500">{error?.response?.data.message}</p>;
+  if (isError || !route) {
+    Toast.show({
+      text: error?.response?.data.message ?? "Something went wrong",
+      duration: "short",
+      position: "bottom",
+    });
+
+    return;
+  }
 
   // Exclude depot stops (first and last)
   const actionableStops = route.stops.slice(1, -1);
@@ -90,6 +116,22 @@ const ActiveRouteUI = () => {
   // Route is complete if no actionable stops left
   const routeComplete = currentStop === null;
 
+  async function confirmCancel() {
+    const { value } = await Dialog.confirm({
+      title: "Confirm",
+      message: "Are you sure you want to cancel this route?",
+      okButtonTitle: "Yes",
+      cancelButtonTitle: "No",
+    });
+
+    if (value) {
+      console.log("Confirmed");
+      mutate();
+    } else {
+      console.log("Cancelled");
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -98,7 +140,9 @@ const ActiveRouteUI = () => {
         </div>
         <ButtonPrimary
           name="Open Map"
-          onBtnClick={() => navigate("/map_view", { state: { route } })}
+          onBtnClick={() =>
+            navigate("/map_view", { state: { route, currentStop } })
+          }
         />
 
         {!routeComplete && currentStop && <StopCard stopData={currentStop} />}
@@ -108,10 +152,12 @@ const ActiveRouteUI = () => {
           <ButtonPrimary
             name="Mark as Complete"
             onBtnClick={() => {
-              completeMutation.mutate();
+              completeMutate();
             }}
           />
         )}
+
+        {routesLoading && <InlineSpinner />}
 
         {/* Confirmation Card */}
         {route.status === "completed" && <RouteCompleteCard />}
@@ -127,6 +173,7 @@ const ActiveRouteUI = () => {
             }}
           />
         )}
+        {completeLoading && <InlineSpinner />}
 
         {/* Pickup List button */}
         <ButtonSecondary
@@ -141,17 +188,19 @@ const ActiveRouteUI = () => {
           onClick={() => setShowCancelSheet(true)}
           className="mt-4 text-sm text-red-500 underline self-center"
         >
-          Cancel & Exit Route
+          <div className="w-30 h-1 bg-gray-300 rounded-full"></div>
         </button>
 
         {showCancelSheet && (
           <CancelRouteSheet
             onCancel={() => setShowCancelSheet(false)}
             onConfirm={() => {
-              mutate();
+              confirmCancel();
             }}
           />
         )}
+
+        {cancelLoading && <InlineSpinner />}
 
         {isCancelationError && (
           <p className="text-red-500">{cancelationError.message}</p>

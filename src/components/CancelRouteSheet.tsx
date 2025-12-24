@@ -16,7 +16,8 @@ const CancelRouteSheet = ({ onCancel, onConfirm }: Props) => {
         <h2 className="text-lg font-semibold text-gray-900">Cancel Route?</h2>
 
         <p className="mt-2 text-sm text-gray-600">
-          This will stop the current route. Remaining pickups will stay pending.
+          This will stop the current route & Reset all the details currently
+          saved.
         </p>
 
         <div className="mt-6 flex flex-col gap-3">
@@ -25,13 +26,6 @@ const CancelRouteSheet = ({ onCancel, onConfirm }: Props) => {
             className="w-full rounded-lg bg-red-500 py-3 text-sm font-semibold text-white"
           >
             Cancel & Exit Route
-          </button>
-
-          <button
-            onClick={onCancel}
-            className="w-full rounded-lg border border-gray-300 py-3 text-sm font-medium"
-          >
-            Continue Route
           </button>
         </div>
       </div>

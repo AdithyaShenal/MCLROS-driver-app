@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { type AxiosError } from "axios";
+import type { APIError } from "../pages/ActiveRouteUI";
 
 interface Farmer {
   _id: string;
@@ -46,7 +47,7 @@ export interface Route {
 }
 
 export const useFetchRoutes = (driver_id: string) =>
-  useQuery<Route[], AxiosError>({
+  useQuery<Route[], AxiosError<APIError>>({
     queryKey: ["routes"],
     queryFn: async () => {
       const res = await axios.get<Route[]>(

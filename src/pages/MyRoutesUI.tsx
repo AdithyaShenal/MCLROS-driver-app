@@ -7,6 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import useDriverStore from "../store/userStore";
 import { useEffect, useState } from "react";
+import InlineSpinner from "../components/Loaders/InlineSpinner";
+import { Toast } from "@capacitor/toast";
 
 interface APIError {
   message: string;
@@ -28,7 +30,12 @@ const MyRoutesUI = () => {
     setDriver("6935c6c814f7764f6bf9518c", "sumanada");
   }, [setDriver]);
 
-  const { data: routes, isError, error } = useFetchRoutes(driverId ?? "");
+  const {
+    data: routes,
+    isError,
+    error,
+    isLoading,
+  } = useFetchRoutes(driverId ?? "");
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (routeId: string) =>
@@ -49,6 +56,14 @@ const MyRoutesUI = () => {
     },
   });
 
+  if (isError) {
+    Toast.show({
+      text: error.response?.data.message ?? "Something went wrong",
+      duration: "short",
+      position: "bottom",
+    });
+  }
+
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -65,7 +80,8 @@ const MyRoutesUI = () => {
 
       <div className="flex flex-col gap-2 mt-4">
         <p className="ml-1 text-gray-500 text-sm">Pending Routes</p>
-        {isError && <p className="text-red-500 font-bold">{error.message}</p>}
+        {isLoading && <InlineSpinner />}
+
         {routes?.map((route) => (
           <RouteCard
             isActive={route.active}

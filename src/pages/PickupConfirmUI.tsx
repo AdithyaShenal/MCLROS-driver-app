@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import StopCard from "../components/StopCard";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import ButtonPrimary from "../components/ButtonPrimary";
 import z from "zod";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useDriverStore from "../store/userStore";
 import { useEffect } from "react";
 import ReportForm from "../components/ReportForm";
+import InlineSpinner from "../components/Loaders/InlineSpinner";
+import { Toast } from "@capacitor/toast";
+import type { APIError } from "./ActiveRouteUI";
 
 interface Payload {
   route_id: string;
@@ -37,7 +40,7 @@ const PickupConfirmUI = () => {
     setDriver("6935c6c814f7764f6bf9518c", "sumanada");
   }, [setDriver]);
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (payload: Payload) =>
       axios
         // .post("http://localhost:4000/api/routing/routes/confirm", payload)
@@ -50,6 +53,13 @@ const PickupConfirmUI = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["routes"] });
       navigate(`/active_route/${route_id}`);
+    },
+
+    onError: (error: AxiosError<APIError>) => {
+      Toast.show({
+        text: error.response?.data.message ?? "Something went wrong",
+        duration: "short",
+      });
     },
   });
 
@@ -81,6 +91,7 @@ const PickupConfirmUI = () => {
           <label htmlFor="fname" className="font-bold ml-1">
             Enter collected volume
           </label>
+          {isPending && <InlineSpinner />}
           <input
             {...register("collectedVolume", { valueAsNumber: true })}
             autoComplete="on"

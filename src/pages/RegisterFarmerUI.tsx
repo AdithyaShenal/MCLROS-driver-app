@@ -68,6 +68,7 @@ const RegisterFarmerUI = () => {
     try {
       setLocationError(null);
 
+      // Request permission directly
       const permission = await Geolocation.requestPermissions();
 
       if (permission.location !== "granted") {
@@ -75,6 +76,7 @@ const RegisterFarmerUI = () => {
         return;
       }
 
+      // Get current position
       const position = await Geolocation.getCurrentPosition({
         enableHighAccuracy: true,
       });

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import type { Route } from "../hooks/useFetchRoutes";
 import { useQuery } from "@tanstack/react-query";
 import StopCard from "../components/StopCard";
+import InlineSpinner from "../components/Loaders/InlineSpinner";
 
 interface APIError {
   message: string;
@@ -19,6 +20,7 @@ const PickupList = () => {
     data: route,
     isError,
     error,
+    isLoading,
   } = useQuery<Route, AxiosError<APIError>>({
     queryKey: ["route", route_id],
     queryFn: () =>
@@ -37,6 +39,7 @@ const PickupList = () => {
 
   return (
     <>
+      {isLoading && <InlineSpinner />}
       <div
         className="
           flex
